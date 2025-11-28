@@ -120,15 +120,4 @@
   body {
     @apply text-foreground;
   }
-  button {
-    background-color: initial;
-    border: initial;
-    color: initial;
-    font-size: initial;
-    font-weight: initial;
-    line-height: initial;
-    margin: initial;
-    padding: initial;
-    text-align: initial;
-  }
 }
