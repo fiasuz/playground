@@ -6,3 +6,4 @@ export {
 export { Text, TextDefaultProps } from "./Text";
 export { Button, ButtonDefaultProps, ButtonSettings } from "./Button";
 export { Card, CardBottom, CardTop } from "./Card";
+export { CanvasWrapper } from "./CanvasWrapper";

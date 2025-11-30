@@ -1,10 +1,10 @@
-import { Button, Card, Container, Text } from "@/components";
+import { Button, Card, Container, Text, CanvasWrapper } from "@/components";
 import { Element, Frame } from "@craftjs/core";
 import type { ElementType } from "react";
 
 export function EditorCanvas() {
   return (
-    <div className="w-full p-4">
+    <CanvasWrapper>
       <Frame>
         <Element
           canvas
@@ -31,6 +31,6 @@ export function EditorCanvas() {
           </Element>
         </Element>
       </Frame>
-    </div>
+    </CanvasWrapper>
   );
 }

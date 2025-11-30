@@ -1,15 +1,8 @@
+import { pages } from "@/shared/constants";
 import { useEditor } from "@craftjs/core";
 import { Button } from "@repo/ui/ui/button";
-import copy from "copy-to-clipboard";
-import {
-  CopyIcon,
-  DownloadCloudIcon,
-  EyeIcon,
-  RedoIcon,
-  UndoIcon,
-} from "lucide-react";
+import { DownloadCloudIcon, PlayIcon, RedoIcon, UndoIcon } from "lucide-react";
 import lz from "lzutf8";
-import { toast } from "sonner";
 
 export function EditorHeader() {
   const { actions, query, canUndo, canRedo } = useEditor((state, query) => ({
@@ -38,11 +31,19 @@ export function EditorHeader() {
         >
           <RedoIcon />
         </Button>
-        <Button variant="outline" onClick={actions.history.redo}>
-          <EyeIcon />
+        <Button
+          variant="outline"
+          onClick={() => {
+            const json = query.serialize();
+            const encoded = lz.encodeBase64(lz.compress(json));
+            const previewUrl = `${pages.preview}?state=${encodeURIComponent(encoded)}`;
+            window.open(previewUrl, "_blank");
+          }}
+        >
+          <PlayIcon />
           Ko&apos;rish
         </Button>
-        <Button
+        {/* <Button
           onClick={() => {
             const json = query.serialize();
             copy(lz.encodeBase64(lz.compress(json)));
@@ -50,7 +51,7 @@ export function EditorHeader() {
           }}
         >
           <CopyIcon /> Saqlash
-        </Button>
+        </Button> */}
         <Button>
           <DownloadCloudIcon /> Yuklab olish
         </Button>
