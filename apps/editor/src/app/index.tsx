@@ -1,10 +1,13 @@
-import { EditorPage } from "@/pages/editor-page";
 import { EditorProvider } from "./providers/editor-provider";
+import { RouteProvider } from "./providers/route-provider";
+import { BrowserRouter } from "react-router-dom";
 
 export function App() {
   return (
-    <EditorProvider>
-      <EditorPage />
-    </EditorProvider>
+    <BrowserRouter>
+      <EditorProvider>
+        <RouteProvider />
+      </EditorProvider>
+    </BrowserRouter>
   );
 }
