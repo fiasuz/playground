@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/components/button";
+import { Button } from "@repo/ui/ui/button";
 
 export function EditorHeader() {
   return (
