@@ -10,7 +10,7 @@ export function EditorPage() {
       <div className="h-screen flex flex-col">
         <EditorHeader />
 
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex overflow-hidden relative">
           <LeftSidebar />
           <EditorCanvas />
           <RightSidebar />

@@ -16,14 +16,12 @@ interface ButtonProps {
     | "secondary"
     | "ghost"
     | "link";
-  color?: string;
   text: ReactNode;
 }
 
 export const Button = ({
   size = "default",
   variant = "default",
-  color,
   text,
   ...props
 }: ButtonProps) => {
@@ -40,7 +38,6 @@ export const Button = ({
       style={{ margin: "5px" }}
       size={size}
       variant={variant}
-      color={color}
       {...props}
     >
       {text}
@@ -64,78 +61,69 @@ export const ButtonSettings = () => {
         <Label>Size</Label>
         <RadioGroup
           defaultValue={props.size}
-          onChange={(e: any) =>
-            setProp((props: any) => (props.size = e.target.value))
+          onValueChange={(e: string) =>
+            setProp((props: any) => (props.size = e))
           }
         >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="default" id="default" />
-            <Label htmlFor="default"></Label>
+            <Label htmlFor="default">default</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="sm" id="sm" />
-            <Label htmlFor="sm"></Label>
+            <Label htmlFor="sm">sm</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="lg" id="lg" />
-            <Label htmlFor="lg"></Label>
+            <Label htmlFor="lg">lg</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="icon" id="icon" />
-            <Label htmlFor="icon"></Label>
+            <Label htmlFor="icon">icon</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="icon-sm" id="icon-sm" />
-            <Label htmlFor="icon-sm"></Label>
+            <Label htmlFor="icon-sm">icon sm</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="icon-lg" id="icon-lg" />
-            <Label htmlFor="icon-lg"></Label>
+            <Label htmlFor="icon-lg">icon lg</Label>
           </div>
         </RadioGroup>
       </div>
       <div>
         <Label>Variant</Label>
         <RadioGroup
-          defaultValue={props.size}
-          onChange={(e: any) =>
-            setProp((props: any) => (props.size = e.target.value))
-          }
+          defaultValue={props.variant}
+          onValueChange={(e: string) => {
+            setProp((props: any) => (props.variant = e));
+          }}
         >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="default" id="default" />
-            <Label htmlFor="default"></Label>
+            <Label htmlFor="default">default</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="destructive" id="destructive" />
-            <Label htmlFor="destructive"></Label>
+            <Label htmlFor="destructive">destructive</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="outline" id="outline" />
-            <Label htmlFor="outline"></Label>
+            <Label htmlFor="outline">outline</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="secondary" id="secondary" />
-            <Label htmlFor="secondary"></Label>
+            <Label htmlFor="secondary">secondary</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="ghost" id="ghost" />
-            <Label htmlFor="ghost"></Label>
+            <Label htmlFor="ghost">ghost</Label>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="link" id="link" />
-            <Label htmlFor="link"></Label>
+            <Label htmlFor="link">link</Label>
           </div>
         </RadioGroup>
-      </div>
-      <div>
-        <Label>Color</Label>
-        <input
-          type="color"
-          onChange={(e) =>
-            setProp((props: any) => (props.color = e.target.value))
-          }
-        />
       </div>
     </div>
   );

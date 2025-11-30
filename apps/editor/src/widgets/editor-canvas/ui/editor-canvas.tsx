@@ -1,10 +1,11 @@
 import { Button, Card, Container, Text } from "@/components";
+import { InfiniteCanvas } from "@/widgets/infinite-canvas";
 import { Element, Frame } from "@craftjs/core";
 import type { ElementType } from "react";
 
 export function EditorCanvas() {
   return (
-    <div>
+    <InfiniteCanvas>
       <Frame>
         <Element
           canvas
@@ -31,6 +32,6 @@ export function EditorCanvas() {
           </Element>
         </Element>
       </Frame>
-    </div>
+    </InfiniteCanvas>
   );
 }
