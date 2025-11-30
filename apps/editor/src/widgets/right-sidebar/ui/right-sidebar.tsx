@@ -1,6 +1,14 @@
 import { useEditor } from "@craftjs/core";
 import { createElement } from "react";
-import { Button as ShadcnButton } from "@repo/ui";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  Button as ShadcnButton,
+} from "@repo/ui";
+import { PaletteIcon } from "lucide-react";
 
 export function RightSidebar() {
   const { actions, selected, isEnabled } = useEditor((state, query) => {
@@ -25,7 +33,7 @@ export function RightSidebar() {
   });
 
   return (
-    <aside className="w-80 border-l bg-white h-full flex flex-col overflow-hidden">
+    <aside className="w-100 border-l bg-white h-full flex flex-col overflow-hidden">
       {isEnabled && selected ? (
         <>
           <div data-cy="settings-panel">
@@ -44,7 +52,19 @@ export function RightSidebar() {
           ) : null}
         </>
       ) : (
-        <h1>elementni tanlang</h1>
+        <div className="w-full h-full flex items-center justify-center">
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <PaletteIcon />
+              </EmptyMedia>
+              <EmptyTitle>Hechnima tanlanmagan</EmptyTitle>
+              <EmptyDescription>
+                Ma&apos;lumotlarga qo&apos;shimcha stil berish uchun uni tanlang
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        </div>
       )}
     </aside>
   );

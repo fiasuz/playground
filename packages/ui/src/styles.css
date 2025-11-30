@@ -1,12 +1,57 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Custom Fonts */
+@font-face {
+  font-family: "Nunito";
+  src: url("../assets/fonts/Nunito-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("../assets/fonts/Nunito-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("../assets/fonts/Nunito-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../apps/*/src/**/*.{ts,tsx}";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-family-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-family-heading: "Nunito", system-ui, -apple-system, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -62,17 +107,17 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary-50: #fef8ec;
-  --primary-100: #faeccb;
-  --primary-200: #f5d792;
-  --primary-300: #f0bc59;
-  --primary-400: #eca533;
-  --primary: #e4851c;
-  --primary-600: #c05e14;
-  --primary-700: #a84615;
-  --primary-800: #893617;
-  --primary-900: #712d16;
-  --primary-950: #401508;
+  --primary-50: #fef4ee;
+  --primary-100: #fde6d7;
+  --primary-200: #fbc9ad;
+  --primary-300: #f8a379;
+  --primary-400: #f47343;
+  --primary: #f04a19;
+  --primary-600: #e23614;
+  --primary-700: #bb2513;
+  --primary-800: #952017;
+  --primary-900: #781d16;
+  --primary-950: #410b09;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -106,17 +151,17 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary-50: #fef8ec;
-  --primary-100: #faeccb;
-  --primary-200: #f5d792;
-  --primary-300: #f0bc59;
-  --primary-400: #eca533;
-  --primary: #e4851c;
-  --primary-600: #c05e14;
-  --primary-700: #a84615;
-  --primary-800: #893617;
-  --primary-900: #712d16;
-  --primary-950: #401508;
+  --primary-50: #fef4ee;
+  --primary-100: #fde6d7;
+  --primary-200: #fbc9ad;
+  --primary-300: #f8a379;
+  --primary-400: #f47343;
+  --primary: #f04a19;
+  --primary-600: #e23614;
+  --primary-700: #bb2513;
+  --primary-800: #952017;
+  --primary-900: #781d16;
+  --primary-950: #410b09;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -148,6 +193,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground;
+    @apply text-foreground font-sans;
   }
 }

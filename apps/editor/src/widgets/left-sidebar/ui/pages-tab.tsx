@@ -1,16 +1,19 @@
-import { Plus } from "lucide-react";
+import { XIcon } from "lucide-react";
 
-export function PagesTab() {
+interface PagesTabProps {
+  onClose: () => void;
+}
+
+export function PagesTab({ onClose }: PagesTabProps) {
   return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="px-4 py-3 border-b bg-gray-50 flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-900">Pages</span>
+    <div>
+      <div className="w-full flex flex-row items-center justify-between mb-2">
+        <h1 className="text-base font-medium">Sahifalar</h1>
         <button
-          className="p-1.5 rounded hover:bg-gray-200 transition-colors text-gray-600"
-          title="Create new page"
+          className="cursor-pointer hover:text-primary text-muted-foreground"
+          onClick={onClose}
         >
-          <Plus size={16} />
+          <XIcon size={20} />
         </button>
       </div>
     </div>
