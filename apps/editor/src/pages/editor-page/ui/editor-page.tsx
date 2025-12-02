@@ -7,7 +7,7 @@ import { RightSidebar } from "@/widgets/right-sidebar";
 export function EditorPage() {
   return (
     <EditorProvider>
-      <div className="h-screen flex flex-col">
+      <div className="h-screen flex flex-col relative">
         <EditorHeader />
 
         <div className="flex-1 flex overflow-hidden relative">

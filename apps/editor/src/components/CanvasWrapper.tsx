@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { EditorControls } from "./EditorControls";
 
 interface CanvasWrapperProps {
   children: React.ReactNode;
@@ -139,8 +140,8 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         {children}
       </div>
 
-      {/* Controls */}
-      <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-md p-3 text-xs space-y-2 pointer-events-none">
+      <EditorControls />
+      {/* <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-md p-3 text-xs space-y-2 pointer-events-none">
         <div>
           <strong>Zoom:</strong>
         </div>
@@ -154,7 +155,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         <div className="border-t mt-2 pt-2">
           Zoom: {Math.round(transform.scale * 100)}%
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -6,3 +6,7 @@ export * from "./tabs";
 export * from "./radio-group";
 export * from "./sonner";
 export * from "./empty";
+export * from "./badge";
+export * from "./separator";
+export * from "./select";
+export * from "./popover";

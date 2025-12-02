@@ -33,7 +33,7 @@ export function RightSidebar() {
   });
 
   return (
-    <aside className="w-100 border-l bg-white h-full flex flex-col overflow-hidden">
+    <aside className="w-[250px] p-3 border-l bg-white h-full flex flex-col overflow-hidden absolute top-0 right-0">
       {isEnabled && selected ? (
         <>
           <div data-cy="settings-panel">
@@ -53,7 +53,7 @@ export function RightSidebar() {
         </>
       ) : (
         <div className="w-full h-full flex items-center justify-center">
-          <Empty>
+          <Empty className="p-0!">
             <EmptyHeader>
               <EmptyMedia variant="icon">
                 <PaletteIcon />
