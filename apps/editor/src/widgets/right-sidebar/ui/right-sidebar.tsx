@@ -43,7 +43,7 @@ export function RightSidebar() {
 
   return (
     <aside
-      className="p-3 border-l bg-white h-full flex flex-col absolute top-0 right-0"
+      className="p-3 border-l bg-white h-full flex flex-col absolute top-0 right-0 z-100"
       style={{ width: width + "px" }}
     >
       <div

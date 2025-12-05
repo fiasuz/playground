@@ -28,7 +28,7 @@ export function LeftSidebar() {
 
   return (
     <aside
-      className="absolute z-10 top-0 left-0 h-full bg-background border-r p-3"
+      className="absolute z-100 top-0 left-0 h-full bg-background border-r p-3"
       style={{ width: width + "px" }}
     >
       {renderAction}

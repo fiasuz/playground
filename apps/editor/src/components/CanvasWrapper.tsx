@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { EditorControls } from "./EditorControls";
-
+import { useBoolean } from "minimal-shared";
 interface CanvasWrapperProps {
   children: React.ReactNode;
 }
@@ -12,12 +12,31 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [isSpacePressing, setIsSpacePressing] = useState(false);
+  const isPositionCalculating = useBoolean();
+
+  useEffect(() => {
+    isPositionCalculating.onTrue();
+    if (containerRef.current && contentRef.current) {
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const contentRect = contentRef.current.getBoundingClientRect();
+
+      const centerX = (containerRect.width - contentRect.width) / 2;
+      const centerY = 100;
+
+      setTransform({ x: centerX, y: centerY, scale: 1 });
+      setTimeout(() => {
+        isPositionCalculating.onFalse();
+      }, 3000);
+    }
+    // isPositionCalculating.onFalse();
+  }, []);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (!containerRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
+
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
@@ -135,6 +154,11 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         backgroundPosition: "0px 0px",
       }}
     >
+      {isPositionCalculating.value && (
+        <div className="w-full h-full absolute top-0 left-0 bg-muted z-5 flex items-center justify-center">
+          Yuklanmoqda...
+        </div>
+      )}
       <div
         ref={contentRef}
         className="absolute"
