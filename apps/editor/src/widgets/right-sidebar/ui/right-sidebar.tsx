@@ -9,6 +9,8 @@ import {
   Button as ShadcnButton,
 } from "@repo/ui";
 import { PaletteIcon } from "lucide-react";
+import { useResize } from "@/shared/hooks";
+import { cn } from "@repo/ui/lib/utils";
 
 export function RightSidebar() {
   const { actions, selected, isEnabled } = useEditor((state, query) => {
@@ -32,8 +34,26 @@ export function RightSidebar() {
     };
   });
 
+  const { width, isResizing, handleMouseDown } = useResize({
+    minWidth: 200,
+    maxWidth: 700,
+    initialWidth: 250,
+    direction: "right",
+  });
+
   return (
-    <aside className="w-[250px] p-3 border-l bg-white h-full flex flex-col overflow-hidden absolute top-0 right-0">
+    <aside
+      className="p-3 border-l bg-white h-full flex flex-col absolute top-0 right-0"
+      style={{ width: width + "px" }}
+    >
+      <div
+        className={cn(
+          "absolute left-0 top-0 w-1 h-full cursor-col-resize hover:bg-blue-500",
+          isResizing && "bg-blue-500"
+        )}
+        onMouseDown={handleMouseDown}
+      />
+
       {isEnabled && selected ? (
         <>
           <div data-cy="settings-panel">

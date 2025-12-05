@@ -10,3 +10,5 @@ export * from "./badge";
 export * from "./separator";
 export * from "./select";
 export * from "./popover";
+export * from "./kbd";
+export * from "./resizable";

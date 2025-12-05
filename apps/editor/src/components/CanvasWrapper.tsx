@@ -13,7 +13,6 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [isSpacePressing, setIsSpacePressing] = useState(false);
 
-  // Mouse wheel zoom
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (!containerRef.current) return;
@@ -25,7 +24,6 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
       const delta = e.deltaY > 0 ? 0.9 : 1.1;
       const newScale = Math.max(0.1, Math.min(transform.scale * delta, 5));
 
-      // Calculate new position to zoom towards mouse cursor
       const scaleChange = newScale / transform.scale;
       const newX = mouseX - (mouseX - transform.x) * scaleChange;
       const newY = mouseY - (mouseY - transform.y) * scaleChange;
@@ -41,16 +39,16 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
     }
   }, [transform.x, transform.y, transform.scale]);
 
-  // Keyboard shortcuts (Ctrl++, Ctrl+-)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "+") {
+      if ((e.ctrlKey || e.metaKey) && (e.key === "+" || e.key === "=")) {
         e.preventDefault();
         setTransform((prev) => ({
           ...prev,
           scale: Math.min(prev.scale * 1.2, 5),
         }));
       }
+
       if ((e.ctrlKey || e.metaKey) && e.key === "-") {
         e.preventDefault();
         setTransform((prev) => ({
@@ -58,11 +56,12 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
           scale: Math.max(prev.scale * 0.83, 0.1),
         }));
       }
+
       if ((e.ctrlKey || e.metaKey) && e.key === "0") {
         e.preventDefault();
         setTransform({ x: 0, y: 0, scale: 1 });
       }
-      // Space press detection
+
       if (e.code === "Space" && !e.repeat) {
         setIsSpacePressing(true);
       }
@@ -120,12 +119,20 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
     }
   }, [isDragging, isSpacePressing, dragStart, transform.x, transform.y]);
 
+  const onResetScale = () => {
+    setTransform({ ...transform, scale: 1 });
+  };
+
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full bg-gray-100 overflow-hidden cursor-grab"
+      className="relative w-full h-full overflow-hidden cursor-grab"
       style={{
         cursor: isSpacePressing ? "grabbing" : "grab",
+        backgroundColor: "#fafafa",
+        backgroundImage: `radial-gradient(circle, #d0d0d0 1px, transparent 1px)`,
+        backgroundSize: "20px 20px",
+        backgroundPosition: "0px 0px",
       }}
     >
       <div
@@ -140,22 +147,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         {children}
       </div>
 
-      <EditorControls />
-      {/* <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-md p-3 text-xs space-y-2 pointer-events-none">
-        <div>
-          <strong>Zoom:</strong>
-        </div>
-        <div>Ctrl/Cmd + Plus: In</div>
-        <div>Ctrl/Cmd + Minus: Out</div>
-        <div>Ctrl/Cmd + 0: Reset</div>
-        <div className="border-t mt-2 pt-2">
-          <strong>Pan:</strong>
-        </div>
-        <div>Space + Drag</div>
-        <div className="border-t mt-2 pt-2">
-          Zoom: {Math.round(transform.scale * 100)}%
-        </div>
-      </div> */}
+      <EditorControls scale={transform.scale} onResetScale={onResetScale} />
     </div>
   );
 }

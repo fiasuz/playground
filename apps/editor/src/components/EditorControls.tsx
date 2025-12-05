@@ -8,7 +8,12 @@ import {
   PlusIcon,
 } from "lucide-react";
 
-export function EditorControls() {
+interface EditorControls {
+  scale: number;
+  onResetScale: () => void;
+}
+
+export function EditorControls({ scale, onResetScale }: EditorControls) {
   return (
     <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 cursor-default">
       <section className="bg-background shadow-2xl px-4 rounded-2xl text-muted-foreground">
@@ -21,8 +26,8 @@ export function EditorControls() {
           </li>
           <Popover>
             <PopoverTrigger asChild>
-              <li className="h-7 px-2 bg-muted text-xs flex flex-row items-center gap-2 rounded-md">
-                <p>100%</p>
+              <li className="h-7 w-18 px-2 bg-muted text-xs flex flex-row items-center justify-between gap-2 rounded-md">
+                <p>{Math.round(scale * 100)}%</p>
                 <ChevronDown className="size-3" />
               </li>
             </PopoverTrigger>
@@ -41,7 +46,10 @@ export function EditorControls() {
                   <MinusIcon className="size-3" />
                 </div>
               </div>
-              <div className="flex flex-row justify-between">
+              <div
+                className="flex flex-row justify-between"
+                onClick={onResetScale}
+              >
                 <p>Zoom to 100%</p>
                 <div className="flex flex-row gap-1 items-center text-muted-foreground">
                   <CommandIcon className="size-3" />
@@ -53,7 +61,6 @@ export function EditorControls() {
                 <p>Pan</p>
                 <p className="text-muted-foreground">Space + Drag</p>
               </div>
-              {/* Zoom: {Math.round(100 * 100)}% */}
             </PopoverContent>
           </Popover>
         </ul>
