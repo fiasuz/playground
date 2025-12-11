@@ -9,7 +9,7 @@ export function App() {
     <BrowserRouter>
       <QueryProvider>
         <EditorProvider>
-          <Toaster />
+          <Toaster richColors theme="light" position="bottom-center" />
           <RouteProvider />
         </EditorProvider>
       </QueryProvider>

@@ -26,7 +26,8 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
       setTransform({ x: centerX, y: centerY, scale: 1 });
       setTimeout(() => {
         isPositionCalculating.onFalse();
-      }, 3000);
+        // }, 3000);
+      }, 0);
     }
     // isPositionCalculating.onFalse();
   }, []);
