@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Editor } from "@craftjs/core";
 import {
+  Breakpointer,
   Button,
   Card,
   CardBottom,
@@ -22,6 +23,7 @@ export function EditorProvider({ children }: EditorProviderProps) {
         Container,
         CardTop,
         CardBottom,
+        Breakpointer,
       }}
     >
       {children}

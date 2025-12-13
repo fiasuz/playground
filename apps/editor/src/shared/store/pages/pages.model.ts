@@ -14,10 +14,12 @@ export interface IPage {
   child: IPage | null;
 }
 
-export interface IPagesStore {
+export interface IPagesStoreState {
   pages: IPage[];
   activePage: string | null;
+}
 
+export interface IPagesStoreActions {
   addPage: ({ type, route }: { type: IPageType; route: string }) => void;
   deletePage: (id: string) => void;
   renamePage: (id: string, newName: string) => void;

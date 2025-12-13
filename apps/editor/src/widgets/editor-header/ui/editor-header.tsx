@@ -7,6 +7,7 @@ import { Button, buttonVariants } from "@repo/ui/ui/button";
 import {
   Bird,
   CogIcon,
+  CopyIcon,
   Database,
   DownloadCloudIcon,
   GlobeIcon,
@@ -79,6 +80,18 @@ export function EditorHeader() {
         </Button>
         <Button variant="outline" size="icon">
           <GlobeIcon />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => {
+            const json = query.serialize();
+            window.navigator.clipboard.writeText(
+              lz.encodeBase64(lz.compress(json))
+            );
+          }}
+        >
+          <CopyIcon />
         </Button>
         <Button
           variant="outline"

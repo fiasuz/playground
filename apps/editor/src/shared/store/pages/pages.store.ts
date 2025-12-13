@@ -1,12 +1,18 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { nanoid } from "nanoid";
-import type { IPage, IPagesStore } from "./pages.model";
+import type {
+  IPage,
+  IPagesStoreActions,
+  IPagesStoreState,
+} from "./pages.model";
 import { toast } from "sonner";
 
-// const homePageId = nanoid(9);
-const homePageId = "1";
+const homePageId = nanoid(9);
 export const indexPage = "/";
+export const initialPageContent =
+  "eyJST09UIjp7InR5cGXECHJlc29sdmVkTmFtZSI6IkNvbnRhaW5lciJ9LCJpc0NhbnZhcyI6dHJ1ZSwicHJvcHPENWJhY2tncm91bmQiOiIjZcUBIiwicGFkZGluZyI6NSwiZGF0YS1jeSI6InJvb3QtY8xYZGlzcGxhedFzLCJjdXN0b20iOnt9LCJoaWRkZW4iOmZhbHNlLCJub2RlcyI6WyJESjlfM2JPa1ZuIiwiLU5YYVJ4LWxvdyIsIl9ycFlNeUVsVlgiLCJWZ1J4dzVyZXhoIl0sImxpbmtlZE7GRHt9fSzMR/sBD2FyZO4BCucAjvcBC2bFAewBCzPsAQtmcmFtZS1jx1XvAQfEFu4BAnBhcmVudCI65gG1+QES8QDfInRleMQ3dmtOVmJWSmFnXyIsImJ1dHRvbnMiOiJ4eUhRUlZlRjhuIuQBCesBQ/oBCULFPv4BC3NpesQrZGVmYXVsdCIsInZhcmlh5QDB6AH/5QDib2xvciI6InByaW1hcnkiLOgAr0NsaWNrIG3kAkrwATPmAL3yATXnAJf/ATf/ATfsAhbrAkP6AQ1U5ACw/QEL5wDSSGkgd29ybGQhIiwiZm9udFPlASIyMPIA4cUx8QDfxWn/AN3/AN3sAN3rAxP/BAL/BALwAvc5xQHsAvc28wL3/wQD8wQD/wDt6QQTZnA2V1V0dk93M/YD7Msg/wHW/wHW5QHWSXQncyBtZSBhZ2Fpbv8B2+wA+P8B5fQA+OsBsv8B6+8A8usD+/4E3lRvcP0B6eoAzuQEty10xi/yBLvESPcAxe0FsfgBw0sxclQxaFJSXzYiLCJ6MkZ0bWtpYzcx9gHQyy3/AdD/AdDlAdBPbmx5IMQMc/sBzOgA/uUBxS0x/wHH7wEC7QWJ/wHH7QDp6wEJ/wDp/wDp5QDpYXJlIGFsbG93ZWQgdXAgaGVy5AVs6gDyMe0HuO4A8jL/APL/APL/APLqAPLrBp3+ArlCb3TEd/8CvOwAzGLJMvICv8dO/wLC/QLCV2xMZm04Q3Zm9whxyyD/B2j/B2jnB2hz5ACv6gdj6gd3+Qdh5QLp5wgIIGRvd27oAgP1ASn/B3X4ASzrAcH/AfrtASB9";
+
 const initials: IPage[] = [
   {
     id: homePageId,
@@ -14,6 +20,7 @@ const initials: IPage[] = [
     type: "index",
     route: indexPage,
     child: null,
+    craftContent: initialPageContent,
   },
 ];
 
@@ -48,7 +55,7 @@ const generateUniqueRoute = (
 /**
  * Pages store
  */
-export const pagesStore = create<IPagesStore>()(
+export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
   devtools((set, get) => ({
     pages: initials,
     activePage: homePageId,
@@ -231,6 +238,7 @@ export const pagesStore = create<IPagesStore>()(
      */
     savePageContent: (pageId, content) => {
       const pages = get().pages;
+      console.log("page saving ==== ", pageId, content);
 
       const updatedPages = pages.map((p) =>
         p.id === pageId ? { ...p, craftContent: content } : p
