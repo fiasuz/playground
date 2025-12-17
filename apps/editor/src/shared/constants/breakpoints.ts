@@ -1,18 +1,25 @@
 export type BreakpointsKey = "mobile" | "tablet" | "desktop";
 
 export const breakpoints: {
-  [key: string]: { size: number; key: BreakpointsKey };
+  [key in BreakpointsKey]: {
+    width: number;
+    key: BreakpointsKey;
+    defaultHeight: number;
+  };
 } = {
   mobile: {
-    size: 640,
+    width: 640,
     key: "mobile",
+    defaultHeight: 1000,
   },
   tablet: {
-    size: 768,
+    width: 768,
     key: "tablet",
+    defaultHeight: 1000,
   },
   desktop: {
-    size: 1024,
+    width: 1024,
     key: "desktop",
+    defaultHeight: 1000,
   },
 };

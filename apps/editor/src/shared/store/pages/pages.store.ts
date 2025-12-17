@@ -11,7 +11,7 @@ import { toast } from "sonner";
 const homePageId = nanoid(9);
 export const indexPage = "/";
 export const initialPageContent =
-  "eyJST09UIjp7InR5cGXECHJlc29sdmVkTmFtZSI6IkNvbnRhaW5lciJ9LCJpc0NhbnZhcyI6dHJ1ZSwicHJvcHPENWJhY2tncm91bmQiOiIjZcUBIiwicGFkZGluZyI6NSwiZGF0YS1jeSI6InJvb3QtY8xYZGlzcGxhedFzLCJjdXN0b20iOnt9LCJoaWRkZW4iOmZhbHNlLCJub2RlcyI6WyJESjlfM2JPa1ZuIiwiLU5YYVJ4LWxvdyIsIl9ycFlNeUVsVlgiLCJWZ1J4dzVyZXhoIl0sImxpbmtlZE7GRHt9fSzMR/sBD2FyZO4BCucAjvcBC2bFAewBCzPsAQtmcmFtZS1jx1XvAQfEFu4BAnBhcmVudCI65gG1+QES8QDfInRleMQ3dmtOVmJWSmFnXyIsImJ1dHRvbnMiOiJ4eUhRUlZlRjhuIuQBCesBQ/oBCULFPv4BC3NpesQrZGVmYXVsdCIsInZhcmlh5QDB6AH/5QDib2xvciI6InByaW1hcnkiLOgAr0NsaWNrIG3kAkrwATPmAL3yATXnAJf/ATf/ATfsAhbrAkP6AQ1U5ACw/QEL5wDSSGkgd29ybGQhIiwiZm9udFPlASIyMPIA4cUx8QDfxWn/AN3/AN3sAN3rAxP/BAL/BALwAvc5xQHsAvc28wL3/wQD8wQD/wDt6QQTZnA2V1V0dk93M/YD7Msg/wHW/wHW5QHWSXQncyBtZSBhZ2Fpbv8B2+wA+P8B5fQA+OsBsv8B6+8A8usD+/4E3lRvcP0B6eoAzuQEty10xi/yBLvESPcAxe0FsfgBw0sxclQxaFJSXzYiLCJ6MkZ0bWtpYzcx9gHQyy3/AdD/AdDlAdBPbmx5IMQMc/sBzOgA/uUBxS0x/wHH7wEC7QWJ/wHH7QDp6wEJ/wDp/wDp5QDpYXJlIGFsbG93ZWQgdXAgaGVy5AVs6gDyMe0HuO4A8jL/APL/APL/APLqAPLrBp3+ArlCb3TEd/8CvOwAzGLJMvICv8dO/wLC/QLCV2xMZm04Q3Zm9whxyyD/B2j/B2jnB2hz5ACv6gdj6gd3+Qdh5QLp5wgIIGRvd27oAgP1ASn/B3X4ASzrAcH/AfrtASB9";
+  "eyJST09UIjp7InR5cGXECHJlc29sdmVkTmFtZSI6IkJyZWFrcG9pbnRlciJ9LCJpc0NhbnZhcyI6dHJ1ZSwicHJvcHPEOGJhY2tncm91bmQiOiIjZmZmIiwiZGF0YS1jeSI6InJvb3QtY29udGFpbsZJZGlzcGxhedRnLCJjdXN0b20iOnt9LCJoaWRkZW4iOmZhbHNlLCJub2RlcyI6W10sImxpbmtlZE7GEXt9fX0=";
 
 const initials: IPage[] = [
   {
@@ -20,7 +20,9 @@ const initials: IPage[] = [
     type: "index",
     route: indexPage,
     child: null,
-    craftContent: initialPageContent,
+    craftContent: {
+      desktop: initialPageContent,
+    },
   },
 ];
 
@@ -33,7 +35,7 @@ const initials: IPage[] = [
  */
 const generateUniqueRoute = (
   baseRoute: string,
-  existingPages: IPage[]
+  existingPages: IPage[],
 ): string => {
   const existingRoutes = existingPages.map((p) => p.route);
 
@@ -59,6 +61,7 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
   devtools((set, get) => ({
     pages: initials,
     activePage: homePageId,
+    activeBreakpoint: "desktop",
 
     /**
      * Add Page
@@ -76,12 +79,16 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
         createdAt: new Date(),
         type: payload.type,
         route: uniqueRoute,
+        craftContent: {
+          desktop: initialPageContent,
+        },
         child: null,
       };
 
       set({
         pages: [...pages, newPage],
         activePage: newId,
+        activeBreakpoint: "desktop",
       });
     },
 
@@ -109,7 +116,7 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
       const pages = get().pages;
 
       const updatedPages = pages.map((p) =>
-        p.id === id ? { ...p, name: newName } : p
+        p.id === id ? { ...p, name: newName } : p,
       );
 
       set({ pages: updatedPages });
@@ -137,7 +144,7 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
 
       // Check if route already exists (excluding current page)
       const routeExists = pages.some(
-        (p) => p.id !== id && p.route === formattedRoute
+        (p) => p.id !== id && p.route === formattedRoute,
       );
 
       if (routeExists) {
@@ -178,7 +185,69 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
      * @param id {String}
      */
     setActivePage: (id) => {
-      set({ activePage: id });
+      set({ activePage: id, activeBreakpoint: "desktop" });
+    },
+
+    /**
+     * Add breakpoint to page
+     * @param pageId - Page ID
+     * @param breakpoint - Breakpoint key to add
+     */
+    addBreakpointToPage: (pageId, breakpoint) => {
+      const pages = get().pages;
+
+      // First check parent pages
+      let page = pages.find((p) => p.id === pageId);
+      let isChild = false;
+      let parentPageId: string | null = null;
+
+      // If not found in parents, search in children
+      if (!page) {
+        for (const parentPage of pages) {
+          if (parentPage.child && parentPage.child.id === pageId) {
+            page = parentPage.child;
+            isChild = true;
+            parentPageId = parentPage.id;
+            break;
+          }
+        }
+      }
+
+      if (!page) {
+        toast.warning("Page not found");
+        return;
+      }
+
+      const updatedPages = pages.map((p) => {
+        if (isChild && p.id === parentPageId) {
+          // Update child page
+          const newChildContent = { ...p.child!.craftContent };
+          newChildContent[breakpoint] = p.child!.craftContent?.desktop;
+
+          return {
+            ...p,
+            child: {
+              ...p.child!,
+              craftContent: newChildContent,
+            },
+          };
+        } else if (!isChild && p.id === pageId) {
+          // Update parent page
+          const newContent = { ...p.craftContent };
+          newContent[breakpoint] = p.craftContent?.desktop;
+
+          return {
+            ...p,
+            craftContent: newContent,
+          };
+        }
+        return p;
+      });
+
+      set({
+        pages: updatedPages,
+        activeBreakpoint: breakpoint,
+      });
     },
 
     /**
@@ -204,7 +273,7 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
         // Example: /product/:id -> /product-copy/:id
         baseRoute = pageToDuplicate.route.replace(
           /^(\/[^/:]+)(\/:.+)?$/,
-          "$1-copy$2"
+          "$1-copy$2",
         );
       } else if (pageToDuplicate.type === "index") {
         // Index pages cannot be duplicated with same route
@@ -238,10 +307,18 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
      */
     savePageContent: (pageId, content) => {
       const pages = get().pages;
-      console.log("page saving ==== ", pageId, content);
+      const activeBreakpoint = get().activeBreakpoint;
 
       const updatedPages = pages.map((p) =>
-        p.id === pageId ? { ...p, craftContent: content } : p
+        p.id === pageId
+          ? {
+              ...p,
+              craftContent: {
+                ...p.craftContent,
+                [activeBreakpoint]: content,
+              },
+            }
+          : p,
       );
 
       set({ pages: updatedPages });
@@ -253,6 +330,7 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
      */
     loadPageContent: (pageId) => {
       const page = get().pages.find((p) => p.id === pageId);
+
       return page?.craftContent;
     },
 
@@ -301,7 +379,7 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
 
       // Update parent page with child
       const updatedPages = pages.map((p) =>
-        p.id === parentId ? { ...p, child: detailPage } : p
+        p.id === parentId ? { ...p, child: detailPage } : p,
       );
 
       set({
@@ -338,10 +416,20 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
       const pages = get().pages;
 
       const updatedPages = pages.map((p) =>
-        p.id === parentId ? { ...p, child: null } : p
+        p.id === parentId ? { ...p, child: null } : p,
       );
 
       set({ pages: updatedPages });
     },
-  }))
+
+    /**
+     * Change active breakpoint
+     * @param breakpoint {BreakpointsKey}
+     */
+    setActiveBreakpoint: (breakpoint) => {
+      set({
+        activeBreakpoint: breakpoint,
+      });
+    },
+  })),
 );

@@ -1,3 +1,5 @@
+import { breakpoints } from "@/shared/constants";
+import { pagesStore } from "@/shared/store";
 import { useNode } from "@craftjs/core";
 import { Label } from "@repo/ui";
 import type { HTMLAttributes, ReactNode } from "react";
@@ -17,6 +19,7 @@ export const Breakpointer = ({
   const {
     connectors: { connect, drag },
   } = useNode();
+  const { activeBreakpoint } = pagesStore();
 
   return (
     <div
@@ -26,7 +29,13 @@ export const Breakpointer = ({
           connect(drag(ref));
         }
       }}
-      style={{ margin: "5px 0", background, padding: `${padding}px` }}
+      style={{
+        margin: "5px 0",
+        background,
+        padding: `${padding}px`,
+        width: breakpoints[activeBreakpoint].width,
+        height: breakpoints[activeBreakpoint].defaultHeight,
+      }}
     >
       {children}
     </div>
@@ -69,14 +78,7 @@ export const BreakpointerSettings = () => {
     </div>
   );
 };
-
-export const BreakpointerDefaultProps = {
-  background: "#ffffff",
-  padding: 3,
-};
-
 Breakpointer.craft = {
-  props: BreakpointerDefaultProps,
   related: {
     settings: BreakpointerSettings,
   },

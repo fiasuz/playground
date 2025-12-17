@@ -9,6 +9,6 @@ export { Card, CardBottom, CardTop } from "./Card";
 export { CanvasWrapper } from "./CanvasWrapper";
 export {
   Breakpointer,
-  BreakpointerDefaultProps,
   BreakpointerSettings,
-} from "./Breakpointer";
+} from "./breakpointer/Breakpointer";
+export { BreakpointerHeader } from "./breakpointer/BreakpointerHeader";

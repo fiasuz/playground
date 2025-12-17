@@ -1,7 +1,7 @@
-import { pages } from "@/shared/constants";
-import { actionsStore, type ActionsType } from "@/shared/store";
+import { breakpoints, pages, type BreakpointsKey } from "@/shared/constants";
+import { actionsStore, pagesStore, type ActionsType } from "@/shared/store";
 import { useEditor } from "@craftjs/core";
-import { Badge } from "@repo/ui";
+import { Badge, ButtonGroup } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
 import { Button, buttonVariants } from "@repo/ui/ui/button";
 import {
@@ -11,15 +11,26 @@ import {
   Database,
   DownloadCloudIcon,
   GlobeIcon,
+  LaptopIcon,
   PlayIcon,
   Plus,
+  SmartphoneIcon,
+  TabletIcon,
 } from "lucide-react";
 import lz from "lzutf8";
 
 export function EditorHeader() {
   const { change: changeAction, active: activeAction } = actionsStore(
-    (state) => state
+    (state) => state,
   );
+
+  const {
+    activePage,
+    activeBreakpoint,
+    setActiveBreakpoint,
+    addBreakpointToPage,
+    loadPageContent,
+  } = pagesStore();
 
   const { query } = useEditor((state, query) => ({
     enabled: state.options.enabled,
@@ -35,6 +46,40 @@ export function EditorHeader() {
     }
   };
 
+  const getBreakpointIcon = (breakpoint: BreakpointsKey) => {
+    switch (breakpoint) {
+      case "mobile":
+        return <SmartphoneIcon className="size-4" />;
+      case "tablet":
+        return <TabletIcon className="size-4" />;
+      case "desktop":
+        return <LaptopIcon className="size-4" />;
+    }
+  };
+
+  const handleBreakpointChange = (breakpoint: BreakpointsKey) => {
+    if (!activePage) return;
+
+    const pageContent = loadPageContent(activePage);
+    const breakpointExists = pageContent?.[breakpoint];
+
+    if (!breakpointExists) {
+      // Ask user if they want to add this breakpoint
+      const currentBreakpoint = activeBreakpoint;
+      const shouldCopy = window.confirm(
+        `Breakpoint "${breakpoint}" does not exist for this page. Do you want to create it by copying content from "${currentBreakpoint}"?`,
+      );
+
+      if (shouldCopy) {
+        addBreakpointToPage(activePage, breakpoint, currentBreakpoint);
+      } else {
+        addBreakpointToPage(activePage, breakpoint);
+      }
+    }
+
+    setActiveBreakpoint(breakpoint);
+  };
+
   return (
     <header className="h-15 bg-background border-b flex justify-between items-center px-4 relative">
       <div className="flex flex-row gap-3 items-center">
@@ -42,7 +87,7 @@ export function EditorHeader() {
         <button
           className={cn(
             "flex flex-row items-center gap-1 cursor-pointer hover:text-black",
-            activeAction === "insert" ? "text-text" : "text-muted-foreground"
+            activeAction === "insert" ? "text-text" : "text-muted-foreground",
           )}
           onClick={() => onChangeAction("insert")}
         >
@@ -52,7 +97,7 @@ export function EditorHeader() {
         <button
           className={cn(
             "flex flex-row items-center gap-1 cursor-pointer hover:text-black",
-            activeAction === "cms" ? "text-text" : "text-muted-foreground"
+            activeAction === "cms" ? "text-text" : "text-muted-foreground",
           )}
           onClick={() => onChangeAction("cms")}
         >
@@ -70,7 +115,7 @@ export function EditorHeader() {
         <div
           className={cn(
             buttonVariants({ variant: "outline", size: "icon" }),
-            "shadow-none overflow-hidden border-none"
+            "shadow-none overflow-hidden border-none",
           )}
         >
           <img src="https://placehold.co/400x400" />
@@ -87,7 +132,7 @@ export function EditorHeader() {
           onClick={() => {
             const json = query.serialize();
             window.navigator.clipboard.writeText(
-              lz.encodeBase64(lz.compress(json))
+              lz.encodeBase64(lz.compress(json)),
             );
           }}
         >

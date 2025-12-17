@@ -1,13 +1,13 @@
-import { Breakpointer, CanvasWrapper } from "@/components";
+import { BreakpointerHeader, CanvasWrapper } from "@/components";
 import { initialPageContent, pagesStore } from "@/shared/store";
-import { Element, Frame, useEditor } from "@craftjs/core";
-import { useEffect, type ElementType } from "react";
+import { Frame, useEditor } from "@craftjs/core";
+import { useEffect } from "react";
 import lz from "lzutf8";
 
 export function EditorCanvas() {
-  const { activePage, loadPageContent, savePageContent } = pagesStore(
-    (state) => state
-  );
+  const { activePage, activeBreakpoint, loadPageContent, savePageContent } =
+    pagesStore((state) => state);
+
   const { actions, query } = useEditor();
   const { serializedState } = useEditor((_, query) => ({
     serializedState: query.serialize(),
@@ -16,7 +16,7 @@ export function EditorCanvas() {
   useEffect(() => {
     if (!activePage) return;
 
-    const content = loadPageContent(activePage);
+    const content = loadPageContent(activePage)?.[activeBreakpoint];
 
     if (content) {
       const json = lz.decompress(lz.decodeBase64(content));
@@ -35,7 +35,7 @@ export function EditorCanvas() {
         actions.deserialize("");
       }
     }
-  }, [activePage]);
+  }, [activePage, activeBreakpoint]);
 
   useEffect(() => {
     if (!activePage) return;
@@ -46,14 +46,8 @@ export function EditorCanvas() {
 
   return (
     <CanvasWrapper>
-      <Frame>
-        <Element
-          canvas
-          is={Breakpointer as ElementType}
-          padding={5}
-          data-cy="root-container"
-        />
-      </Frame>
+      <BreakpointerHeader />
+      <Frame />
     </CanvasWrapper>
   );
 }

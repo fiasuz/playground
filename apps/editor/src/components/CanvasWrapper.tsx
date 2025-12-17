@@ -29,7 +29,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         // }, 3000);
       }, 0);
     }
-    // isPositionCalculating.onFalse();
+    isPositionCalculating.onFalse();
   }, []);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         e.preventDefault();
         setTransform((prev) => ({
           ...prev,
-          scale: Math.min(prev.scale * 1.2, 5),
+          scale: Math.min(prev.scale * 1.1, 5),
         }));
       }
 
@@ -149,7 +149,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
       className="relative w-full h-full overflow-hidden cursor-grab"
       style={{
         cursor: isSpacePressing ? "grabbing" : "grab",
-        backgroundColor: "#fafafa",
+        backgroundColor: "#eeeeee",
         backgroundImage: `radial-gradient(circle, #d0d0d0 1px, transparent 1px)`,
         backgroundSize: "20px 20px",
         backgroundPosition: "0px 0px",
