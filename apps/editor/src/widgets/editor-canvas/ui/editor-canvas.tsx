@@ -5,8 +5,9 @@ import { useEffect } from "react";
 import lz from "lzutf8";
 
 export function EditorCanvas() {
-  const { activePage, activeBreakpoint, loadPageContent, savePageContent } =
-    pagesStore((state) => state);
+  const { activePage, loadPageContent, savePageContent } = pagesStore(
+    (state) => state,
+  );
 
   const { actions, query } = useEditor();
   const { serializedState } = useEditor((_, query) => ({
@@ -16,7 +17,7 @@ export function EditorCanvas() {
   useEffect(() => {
     if (!activePage) return;
 
-    const content = loadPageContent(activePage)?.[activeBreakpoint];
+    const content = loadPageContent(activePage);
 
     if (content) {
       const json = lz.decompress(lz.decodeBase64(content));
@@ -35,7 +36,7 @@ export function EditorCanvas() {
         actions.deserialize("");
       }
     }
-  }, [activePage, activeBreakpoint]);
+  }, [activePage]);
 
   useEffect(() => {
     if (!activePage) return;

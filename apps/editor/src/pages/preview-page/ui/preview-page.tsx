@@ -22,7 +22,7 @@ export function PreviewPage() {
     if (stateParam) {
       try {
         const decompressed = lz.decompress(
-          lz.decodeBase64(decodeURIComponent(stateParam))
+          lz.decodeBase64(decodeURIComponent(stateParam)),
         );
         const json = JSON.parse(decompressed);
         actions.deserialize(json);

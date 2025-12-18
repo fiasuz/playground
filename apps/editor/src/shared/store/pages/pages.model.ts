@@ -9,11 +9,7 @@ export type IPageType =
 
 export interface IPage {
   id: string;
-  craftContent?:
-    | {
-        [key in BreakpointsKey]?: string;
-      }
-    | undefined;
+  craftContent?: string | undefined;
   createdAt?: Date;
   type: IPageType;
   route: string;
@@ -33,10 +29,9 @@ export interface IPagesStoreActions {
   updatePageRoute: (id: string, newRoute: string) => void;
   setActivePage: (id: string) => void;
   duplicatePage: (id: string) => void;
-  addBreakpointToPage: (pageId: string, breakpoint: BreakpointsKey) => void;
 
   savePageContent: (pageId: string, content: string) => void;
-  loadPageContent: (pageId: string) => IPage["craftContent"] | undefined;
+  loadPageContent: (pageId: string) => string | undefined;
 
   addDetailPage: (parentId: string, route: string) => void;
   hasDetailPage: (pageId: string) => boolean;

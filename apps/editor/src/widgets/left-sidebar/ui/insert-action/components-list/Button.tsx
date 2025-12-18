@@ -4,8 +4,17 @@ import {
   RadioGroup,
   RadioGroupItem,
   Button as ShadcnButton,
+  Separator,
 } from "@repo/ui";
 import type { ReactNode } from "react";
+import { cn } from "@repo/ui/lib/utils";
+import { pagesStore } from "@/shared/store";
+import {
+  isVisibleOnBreakpoint,
+  getResponsiveVisibilityClasses,
+  ResponsiveVisibilityControl,
+  type ResponsiveVisibility,
+} from "@/components";
 
 interface ButtonProps {
   size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
@@ -17,17 +26,35 @@ interface ButtonProps {
     | "ghost"
     | "link";
   text: ReactNode;
+  responsiveVisibility?: ResponsiveVisibility;
 }
 
 export const Button = ({
   size = "default",
   variant = "default",
   text,
+  responsiveVisibility,
   ...props
 }: ButtonProps) => {
   const {
     connectors: { connect, drag },
   } = useNode();
+
+  const { activeBreakpoint } = pagesStore((state) => state);
+
+  // Check if component should be visible on current breakpoint
+  const isVisible = isVisibleOnBreakpoint(
+    responsiveVisibility,
+    activeBreakpoint,
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  // Generate responsive visibility CSS classes
+  const responsiveClasses = getResponsiveVisibilityClasses(responsiveVisibility);
+
   return (
     <ShadcnButton
       ref={(ref) => {
@@ -35,6 +62,7 @@ export const Button = ({
           connect(drag(ref));
         }
       }}
+      className={cn(responsiveClasses)}
       style={{ margin: "5px" }}
       size={size}
       variant={variant}
@@ -56,7 +84,7 @@ export const ButtonSettings = () => {
   }));
 
   return (
-    <div>
+    <div className="space-y-4">
       <div>
         <Label>Size</Label>
         <RadioGroup
@@ -125,6 +153,10 @@ export const ButtonSettings = () => {
           </div>
         </RadioGroup>
       </div>
+
+      <Separator />
+
+      <ResponsiveVisibilityControl />
     </div>
   );
 };

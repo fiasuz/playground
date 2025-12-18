@@ -15,3 +15,4 @@ export * from "./resizable";
 export * from "./button-group";
 export * from "./popover";
 export * from "./tooltip";
+export * from "./switch";

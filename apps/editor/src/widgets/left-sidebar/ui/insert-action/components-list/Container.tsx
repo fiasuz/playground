@@ -1,22 +1,48 @@
 import { useNode } from "@craftjs/core";
-import { Label } from "@repo/ui";
+import { Label, Separator } from "@repo/ui";
 import type { HTMLAttributes, ReactNode } from "react";
+import { cn } from "@repo/ui/lib/utils";
+import { pagesStore } from "@/shared/store";
+import {
+  isVisibleOnBreakpoint,
+  getResponsiveVisibilityClasses,
+  ResponsiveVisibilityControl,
+  type ResponsiveVisibility,
+} from "@/components";
 
 interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   background: string;
   padding: number;
   children: ReactNode;
+  responsiveVisibility?: ResponsiveVisibility;
 }
 
 export const Container = ({
   background,
   padding,
   children,
+  responsiveVisibility,
   ...props
 }: ContainerProps) => {
   const {
     connectors: { connect, drag },
   } = useNode();
+
+  const { activeBreakpoint } = pagesStore((state) => state);
+
+  // Check if component should be visible on current breakpoint
+  const isVisible = isVisibleOnBreakpoint(
+    responsiveVisibility,
+    activeBreakpoint,
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  // Generate responsive visibility CSS classes
+  const responsiveClasses = getResponsiveVisibilityClasses(responsiveVisibility);
+
   return (
     <div
       {...props}
@@ -25,6 +51,7 @@ export const Container = ({
           connect(drag(ref));
         }
       }}
+      className={cn(responsiveClasses, props.className)}
       style={{ margin: "5px 0", background, padding: `${padding}px` }}
     >
       {children}
@@ -43,7 +70,7 @@ export const ContainerSettings = () => {
   }));
 
   return (
-    <div>
+    <div className="space-y-4">
       <div>
         <Label>Background</Label>
         <input
@@ -65,6 +92,10 @@ export const ContainerSettings = () => {
           }
         />
       </div>
+
+      <Separator />
+
+      <ResponsiveVisibilityControl />
     </div>
   );
 };

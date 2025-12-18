@@ -31,17 +31,17 @@ export function EditorControls({ scale, onResetScale }: EditorControls) {
   const { activeBreakpoint, activePage, setActiveBreakpoint, loadPageContent } =
     pagesStore((state) => state);
 
-  const pageContents = loadPageContent(activePage || "");
+  const pageContent = loadPageContent(activePage || "");
 
   useEffect(() => {
     const onChangeActiveBreakpoint = (e: KeyboardEvent) => {
-      if (e.key === "1" && pageContents?.desktop) {
+      if (e.key === "1" && pageContent) {
         setActiveBreakpoint("desktop");
       }
-      if (e.key === "2" && pageContents?.tablet) {
+      if (e.key === "2" && pageContent) {
         setActiveBreakpoint("tablet");
       }
-      if (e.key === "3" && pageContents?.mobile) {
+      if (e.key === "3" && pageContent) {
         setActiveBreakpoint("mobile");
       }
     };
@@ -49,7 +49,7 @@ export function EditorControls({ scale, onResetScale }: EditorControls) {
     window.addEventListener("keydown", onChangeActiveBreakpoint);
     return () =>
       window.removeEventListener("keydown", onChangeActiveBreakpoint);
-  }, [pageContents, setActiveBreakpoint]);
+  }, [pageContent, setActiveBreakpoint]);
 
   return (
     <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 cursor-default">
@@ -71,7 +71,7 @@ export function EditorControls({ scale, onResetScale }: EditorControls) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  disabled={!pageContents?.desktop}
+                  disabled={!pageContent}
                   variant={
                     activeBreakpoint === "desktop" ? "default" : "outline"
                   }
@@ -90,7 +90,7 @@ export function EditorControls({ scale, onResetScale }: EditorControls) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  disabled={!pageContents?.tablet}
+                  disabled={!pageContent}
                   variant={
                     activeBreakpoint === "tablet" ? "default" : "outline"
                   }
@@ -109,7 +109,7 @@ export function EditorControls({ scale, onResetScale }: EditorControls) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  disabled={!pageContents?.mobile}
+                  disabled={!pageContent}
                   variant={
                     activeBreakpoint === "mobile" ? "default" : "outline"
                   }

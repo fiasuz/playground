@@ -7,6 +7,7 @@ import type {
   IPagesStoreState,
 } from "./pages.model";
 import { toast } from "sonner";
+import { generateUniqueRoute } from "./generate-page-unique-route";
 
 const homePageId = nanoid(9);
 export const indexPage = "/";
@@ -20,39 +21,9 @@ const initials: IPage[] = [
     type: "index",
     route: indexPage,
     child: null,
-    craftContent: {
-      desktop: initialPageContent,
-    },
+    craftContent: initialPageContent,
   },
 ];
-
-/**
- * Generate unique route by checking existing routes
- * If route exists, append -2, -3, etc.
- * @param baseRoute - Base route to check
- * @param existingPages - Array of existing pages
- * @returns Unique route
- */
-const generateUniqueRoute = (
-  baseRoute: string,
-  existingPages: IPage[],
-): string => {
-  const existingRoutes = existingPages.map((p) => p.route);
-
-  if (!existingRoutes.includes(baseRoute)) {
-    return baseRoute;
-  }
-
-  let counter = 2;
-  let uniqueRoute = `${baseRoute}-${counter}`;
-
-  while (existingRoutes.includes(uniqueRoute)) {
-    counter++;
-    uniqueRoute = `${baseRoute}-${counter}`;
-  }
-
-  return uniqueRoute;
-};
 
 /**
  * Pages store
@@ -79,9 +50,7 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
         createdAt: new Date(),
         type: payload.type,
         route: uniqueRoute,
-        craftContent: {
-          desktop: initialPageContent,
-        },
+        craftContent: initialPageContent,
         child: null,
       };
 
@@ -189,68 +158,6 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
     },
 
     /**
-     * Add breakpoint to page
-     * @param pageId - Page ID
-     * @param breakpoint - Breakpoint key to add
-     */
-    addBreakpointToPage: (pageId, breakpoint) => {
-      const pages = get().pages;
-
-      // First check parent pages
-      let page = pages.find((p) => p.id === pageId);
-      let isChild = false;
-      let parentPageId: string | null = null;
-
-      // If not found in parents, search in children
-      if (!page) {
-        for (const parentPage of pages) {
-          if (parentPage.child && parentPage.child.id === pageId) {
-            page = parentPage.child;
-            isChild = true;
-            parentPageId = parentPage.id;
-            break;
-          }
-        }
-      }
-
-      if (!page) {
-        toast.warning("Page not found");
-        return;
-      }
-
-      const updatedPages = pages.map((p) => {
-        if (isChild && p.id === parentPageId) {
-          // Update child page
-          const newChildContent = { ...p.child!.craftContent };
-          newChildContent[breakpoint] = p.child!.craftContent?.desktop;
-
-          return {
-            ...p,
-            child: {
-              ...p.child!,
-              craftContent: newChildContent,
-            },
-          };
-        } else if (!isChild && p.id === pageId) {
-          // Update parent page
-          const newContent = { ...p.craftContent };
-          newContent[breakpoint] = p.craftContent?.desktop;
-
-          return {
-            ...p,
-            craftContent: newContent,
-          };
-        }
-        return p;
-      });
-
-      set({
-        pages: updatedPages,
-        activeBreakpoint: breakpoint,
-      });
-    },
-
-    /**
      * Duplicate page
      * @param id - Page ID to duplicate
      */
@@ -307,16 +214,12 @@ export const pagesStore = create<IPagesStoreState & IPagesStoreActions>()(
      */
     savePageContent: (pageId, content) => {
       const pages = get().pages;
-      const activeBreakpoint = get().activeBreakpoint;
 
       const updatedPages = pages.map((p) =>
         p.id === pageId
           ? {
               ...p,
-              craftContent: {
-                ...p.craftContent,
-                [activeBreakpoint]: content,
-              },
+              craftContent: content,
             }
           : p,
       );

@@ -1,15 +1,30 @@
 import { useNode } from "@craftjs/core";
-import { Label } from "@repo/ui";
+import { Label, Separator } from "@repo/ui";
 import { useState, useEffect, type HTMLAttributes } from "react";
 import ContentEditable from "react-contenteditable";
+import { cn } from "@repo/ui/lib/utils";
+import { pagesStore } from "@/shared/store";
+import {
+  isVisibleOnBreakpoint,
+  getResponsiveVisibilityClasses,
+  ResponsiveVisibilityControl,
+  type ResponsiveVisibility,
+} from "@/components";
 
 interface TextProps extends HTMLAttributes<HTMLDivElement> {
   text: string;
   fontSize: number;
   textAlign?: string;
+  responsiveVisibility?: ResponsiveVisibility;
 }
 
-export const Text = ({ text, fontSize, textAlign, ...props }: TextProps) => {
+export const Text = ({
+  text,
+  fontSize,
+  textAlign,
+  responsiveVisibility,
+  ...props
+}: TextProps) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -18,6 +33,8 @@ export const Text = ({ text, fontSize, textAlign, ...props }: TextProps) => {
     selected: state.events.selected,
     dragged: state.events.dragged,
   }));
+
+  const { activeBreakpoint } = pagesStore((state) => state);
 
   const [editable, setEditable] = useState(false);
 
@@ -29,6 +46,19 @@ export const Text = ({ text, fontSize, textAlign, ...props }: TextProps) => {
     setEditable(false);
   }, [selected]);
 
+  // Check if component should be visible on current breakpoint
+  const isVisible = isVisibleOnBreakpoint(
+    responsiveVisibility,
+    activeBreakpoint,
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  // Generate responsive visibility CSS classes
+  const responsiveClasses = getResponsiveVisibilityClasses(responsiveVisibility);
+
   return (
     <div
       {...props}
@@ -37,6 +67,7 @@ export const Text = ({ text, fontSize, textAlign, ...props }: TextProps) => {
           connect(drag(ref));
         }
       }}
+      className={cn(responsiveClasses, props.className)}
       onClick={() => selected && setEditable(true)}
     >
       <ContentEditable
@@ -66,7 +97,7 @@ const TextSettings = () => {
   }));
 
   return (
-    <>
+    <div className="space-y-4">
       <div>
         <Label>Font size</Label>
         <input
@@ -80,7 +111,11 @@ const TextSettings = () => {
           }}
         />
       </div>
-    </>
+
+      <Separator />
+
+      <ResponsiveVisibilityControl />
+    </div>
   );
 };
 
