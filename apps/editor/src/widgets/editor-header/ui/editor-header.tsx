@@ -1,7 +1,7 @@
-import { breakpoints, pages, type BreakpointsKey } from "@/shared/constants";
-import { actionsStore, pagesStore, type ActionsType } from "@/shared/store";
+import { pages } from "@/shared/constants";
+import { actionsStore, type ActionsType } from "@/shared/store";
 import { useEditor } from "@craftjs/core";
-import { Badge, ButtonGroup } from "@repo/ui";
+import { Badge } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
 import { Button, buttonVariants } from "@repo/ui/ui/button";
 import {
@@ -11,11 +11,8 @@ import {
   Database,
   DownloadCloudIcon,
   GlobeIcon,
-  LaptopIcon,
   PlayIcon,
   Plus,
-  SmartphoneIcon,
-  TabletIcon,
 } from "lucide-react";
 import lz from "lzutf8";
 
@@ -23,14 +20,6 @@ export function EditorHeader() {
   const { change: changeAction, active: activeAction } = actionsStore(
     (state) => state,
   );
-
-  const {
-    activePage,
-    activeBreakpoint,
-    setActiveBreakpoint,
-    addBreakpointToPage,
-    loadPageContent,
-  } = pagesStore();
 
   const { query } = useEditor((state, query) => ({
     enabled: state.options.enabled,
@@ -44,40 +33,6 @@ export function EditorHeader() {
     } else {
       changeAction(action);
     }
-  };
-
-  const getBreakpointIcon = (breakpoint: BreakpointsKey) => {
-    switch (breakpoint) {
-      case "mobile":
-        return <SmartphoneIcon className="size-4" />;
-      case "tablet":
-        return <TabletIcon className="size-4" />;
-      case "desktop":
-        return <LaptopIcon className="size-4" />;
-    }
-  };
-
-  const handleBreakpointChange = (breakpoint: BreakpointsKey) => {
-    if (!activePage) return;
-
-    const pageContent = loadPageContent(activePage);
-    const breakpointExists = pageContent?.[breakpoint];
-
-    if (!breakpointExists) {
-      // Ask user if they want to add this breakpoint
-      const currentBreakpoint = activeBreakpoint;
-      const shouldCopy = window.confirm(
-        `Breakpoint "${breakpoint}" does not exist for this page. Do you want to create it by copying content from "${currentBreakpoint}"?`,
-      );
-
-      if (shouldCopy) {
-        addBreakpointToPage(activePage, breakpoint, currentBreakpoint);
-      } else {
-        addBreakpointToPage(activePage, breakpoint);
-      }
-    }
-
-    setActiveBreakpoint(breakpoint);
   };
 
   return (
@@ -138,6 +93,7 @@ export function EditorHeader() {
         >
           <CopyIcon />
         </Button>
+
         <Button
           variant="outline"
           size="icon"

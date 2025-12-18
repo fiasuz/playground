@@ -49,7 +49,7 @@ export function RightSidebar() {
       <div
         className={cn(
           "absolute left-0 top-0 w-1 h-full cursor-col-resize hover:bg-blue-500",
-          isResizing && "bg-blue-500"
+          isResizing && "bg-blue-500",
         )}
         onMouseDown={handleMouseDown}
       />

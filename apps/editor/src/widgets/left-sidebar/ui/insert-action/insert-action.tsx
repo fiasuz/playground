@@ -10,6 +10,7 @@ import { Media } from "./media/Media";
 import { Forms } from "./forms/Forms";
 import { Interactive } from "./interactive/Interactive";
 import { Utilities } from "./utilities/Utilities";
+import { ComponentsList } from "./components-list/ComponentsList";
 
 export function InsertAction() {
   return (
@@ -17,6 +18,7 @@ export function InsertAction() {
       <ul className="space-y-4">
         <li>
           <TogglerGroup title="Basics">
+            <ComponentsList />
             <Sections />
             <Navigations />
             <Menus />

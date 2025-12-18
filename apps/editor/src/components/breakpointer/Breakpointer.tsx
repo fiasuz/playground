@@ -30,11 +30,10 @@ export const Breakpointer = ({
         }
       }}
       style={{
-        margin: "5px 0",
         background,
         padding: `${padding}px`,
         width: breakpoints[activeBreakpoint].width,
-        height: breakpoints[activeBreakpoint].defaultHeight,
+        minHeight: breakpoints[activeBreakpoint].defaultHeight,
       }}
     >
       {children}

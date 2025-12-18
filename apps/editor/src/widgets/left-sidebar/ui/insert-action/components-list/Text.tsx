@@ -46,7 +46,7 @@ export const Text = ({ text, fontSize, textAlign, ...props }: TextProps) => {
           setProp(
             (props: any) =>
               (props.text = e.target.value.replace(/<\/?[^>]+(>|$)/g, "")),
-            500
+            500,
           )
         }
         tagName="p"

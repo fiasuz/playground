@@ -16,6 +16,7 @@ export const CardTop = ({ children, ...props }: CardTopProps): JSX.Element => {
   const {
     connectors: { connect },
   } = useNode();
+
   return (
     <div
       {...props}
@@ -43,7 +44,7 @@ CardTop.craft = {
   rules: {
     canMoveIn: (incomingNodes: any) =>
       incomingNodes.every(
-        (incomingNode: any) => incomingNode.data.type === Text
+        (incomingNode: any) => incomingNode.data.type === Text,
       ),
   },
 };
@@ -61,6 +62,7 @@ export const CardBottom = ({
   const {
     connectors: { connect },
   } = useNode();
+
   return (
     <div
       {...props}
@@ -80,7 +82,7 @@ CardBottom.craft = {
   rules: {
     canMoveIn: (incomingNodes: any) =>
       incomingNodes.every(
-        (incomingNode: any) => incomingNode.data.type === Button
+        (incomingNode: any) => incomingNode.data.type === Button,
       ),
   },
 };

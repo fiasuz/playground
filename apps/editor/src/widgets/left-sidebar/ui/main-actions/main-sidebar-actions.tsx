@@ -1,7 +1,6 @@
 import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/ui";
 import { PagesTab } from "./pages-tab/PagesTab";
 import { LayersTab } from "./layers-tab/LayersTab";
-import { AssetsTab } from "./assets-tab/AssetsTab";
 
 export function MainSidebarActions() {
   return (
@@ -9,7 +8,7 @@ export function MainSidebarActions() {
       <TabsList className="w-full">
         <TabsTrigger value="pages">Pages</TabsTrigger>
         <TabsTrigger value="layers">Layers</TabsTrigger>
-        <TabsTrigger value="assets">Assets</TabsTrigger>
+        {/*<TabsTrigger value="assets">Assets</TabsTrigger>*/}
       </TabsList>
       <Separator />
       <TabsContent value="pages">
@@ -18,9 +17,9 @@ export function MainSidebarActions() {
       <TabsContent value="layers">
         <LayersTab />
       </TabsContent>
-      <TabsContent value="assets">
+      {/*<TabsContent value="assets">
         <AssetsTab />
-      </TabsContent>
+      </TabsContent>*/}
     </Tabs>
   );
 }

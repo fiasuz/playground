@@ -23,7 +23,7 @@ export function EditorCanvas() {
 
       try {
         actions.deserialize(json);
-      } catch (error) {
+      } catch {
         actions.deserialize("");
       }
     } else {
@@ -31,7 +31,7 @@ export function EditorCanvas() {
 
       try {
         actions.deserialize(json);
-      } catch (error) {
+      } catch {
         actions.deserialize("");
       }
     }
