@@ -1,5 +1,5 @@
 import { pages } from "@/shared/constants";
-import { actionsStore, type ActionsType } from "@/shared/store";
+import { actionsStore, pagesStore, type ActionsType } from "@/shared/store";
 import { useEditor } from "@craftjs/core";
 import { Badge } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
@@ -20,6 +20,7 @@ export function EditorHeader() {
   const { change: changeAction, active: activeAction } = actionsStore(
     (state) => state,
   );
+  const { pages: createdPages } = pagesStore((state) => state);
 
   const { query } = useEditor((state, query) => ({
     enabled: state.options.enabled,
@@ -32,6 +33,43 @@ export function EditorHeader() {
       changeAction("default");
     } else {
       changeAction(action);
+    }
+  };
+
+  const onDownload = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/export", {
+        method: "POST",
+        body: JSON.stringify({
+          projectName: "test",
+          framework: "vite",
+          pages: createdPages,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "test";
+      document.body.appendChild(a);
+      a.click();
+
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Yuklab olishda xatolik:", error);
+      alert(
+        "Faylni yuklab olishda xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.",
+      );
     }
   };
 
@@ -106,7 +144,13 @@ export function EditorHeader() {
         >
           <PlayIcon />
         </Button>
-        <Button>
+
+        <Button
+          onClick={() => {
+            onDownload();
+            console.log("pages", JSON.stringify(createdPages));
+          }}
+        >
           <DownloadCloudIcon /> Yuklab olish
         </Button>
       </div>

@@ -6,9 +6,10 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
+  Separator,
   Button as ShadcnButton,
 } from "@repo/ui";
-import { PaletteIcon } from "lucide-react";
+import { PaletteIcon, Trash2Icon } from "lucide-react";
 import { useResize } from "@/shared/hooks";
 import { cn } from "@repo/ui/lib/utils";
 
@@ -59,15 +60,17 @@ export function RightSidebar() {
           <div data-cy="settings-panel">
             {selected.settings && createElement(selected.settings)}
           </div>
+          <Separator className="mt-3" />
           {selected.isDeletable ? (
             <ShadcnButton
               variant="destructive"
               color="default"
+              className="mt-3"
               onClick={() => {
                 actions.delete(selected.id);
               }}
             >
-              Delete
+              <Trash2Icon /> Delete
             </ShadcnButton>
           ) : null}
         </>

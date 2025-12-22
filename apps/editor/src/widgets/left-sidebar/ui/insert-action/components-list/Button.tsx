@@ -1,10 +1,14 @@
 import { useNode } from "@craftjs/core";
 import {
   Label,
-  RadioGroup,
-  RadioGroupItem,
   Button as ShadcnButton,
   Separator,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  Input,
 } from "@repo/ui";
 import type { ReactNode } from "react";
 import { cn } from "@repo/ui/lib/utils";
@@ -53,7 +57,8 @@ export const Button = ({
   }
 
   // Generate responsive visibility CSS classes
-  const responsiveClasses = getResponsiveVisibilityClasses(responsiveVisibility);
+  const responsiveClasses =
+    getResponsiveVisibilityClasses(responsiveVisibility);
 
   return (
     <ShadcnButton
@@ -63,7 +68,9 @@ export const Button = ({
         }
       }}
       className={cn(responsiveClasses)}
-      style={{ margin: "5px" }}
+      style={{
+        margin: "5px",
+      }}
       size={size}
       variant={variant}
       {...props}
@@ -84,86 +91,83 @@ export const ButtonSettings = () => {
   }));
 
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="space-y-3">
+      {/* Button Text */}
+      <div className="space-y-2">
+        <Label>Button Text</Label>
+        <Input
+          value={props.text}
+          onChange={(e) =>
+            setProp((props: any) => (props.text = e.target.value))
+          }
+          placeholder="Enter button text"
+        />
+      </div>
+
+      <Separator />
+
+      {/* Size */}
+      <div className="flex flex-row items-center gap-1 justify-between">
         <Label>Size</Label>
-        <RadioGroup
+        <Select
           defaultValue={props.size}
           onValueChange={(e: string) =>
             setProp((props: any) => (props.size = e))
           }
         >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="default" id="default" />
-            <Label htmlFor="default">default</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="sm" id="sm" />
-            <Label htmlFor="sm">sm</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="lg" id="lg" />
-            <Label htmlFor="lg">lg</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="icon" id="icon" />
-            <Label htmlFor="icon">icon</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="icon-sm" id="icon-sm" />
-            <Label htmlFor="icon-sm">icon sm</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="icon-lg" id="icon-lg" />
-            <Label htmlFor="icon-lg">icon lg</Label>
-          </div>
-        </RadioGroup>
+          <SelectTrigger className="w-[140px]" size="sm">
+            <SelectValue placeholder="Size" />
+          </SelectTrigger>
+          <SelectContent className="z-101">
+            <SelectItem value="default">Default</SelectItem>
+            <SelectItem value="sm">Small</SelectItem>
+            <SelectItem value="lg">Large</SelectItem>
+            <SelectItem value="icon">Icon</SelectItem>
+            <SelectItem value="icon-sm">Icon small</SelectItem>
+            <SelectItem value="icon-lg">Icon large</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-      <div>
+
+      <Separator />
+
+      {/* Variant */}
+      <div className="flex flex-row items-center gap-1 justify-between">
         <Label>Variant</Label>
-        <RadioGroup
+        <Select
           defaultValue={props.variant}
           onValueChange={(e: string) => {
             setProp((props: any) => (props.variant = e));
           }}
         >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="default" id="default" />
-            <Label htmlFor="default">default</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="destructive" id="destructive" />
-            <Label htmlFor="destructive">destructive</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="outline" id="outline" />
-            <Label htmlFor="outline">outline</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="secondary" id="secondary" />
-            <Label htmlFor="secondary">secondary</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="ghost" id="ghost" />
-            <Label htmlFor="ghost">ghost</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="link" id="link" />
-            <Label htmlFor="link">link</Label>
-          </div>
-        </RadioGroup>
+          <SelectTrigger className="w-[140px]" size="sm">
+            <SelectValue placeholder="Variant" />
+          </SelectTrigger>
+          <SelectContent className="z-101">
+            <SelectItem value="default">Default</SelectItem>
+            <SelectItem value="destructive">Destructive</SelectItem>
+            <SelectItem value="outline">Outline</SelectItem>
+            <SelectItem value="secondary">Secondary</SelectItem>
+            <SelectItem value="ghost">Ghost</SelectItem>
+            <SelectItem value="link">Link</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <Separator />
 
-      <ResponsiveVisibilityControl />
+      {/* Responsive Visibility */}
+      <div className="space-y-3">
+        <Label>Responsive Visibility</Label>
+        <ResponsiveVisibilityControl />
+      </div>
     </div>
   );
 };
 
 export const ButtonDefaultProps = {
   size: "small",
-  variant: "contained",
+  variant: "default",
   color: "primary",
   text: "Click me",
 };

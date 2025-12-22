@@ -11,7 +11,6 @@ export function PreviewPage() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Disable editing mode
     if (enabled) {
       actions.setOptions((options) => (options.enabled = false));
     }
@@ -25,6 +24,7 @@ export function PreviewPage() {
           lz.decodeBase64(decodeURIComponent(stateParam)),
         );
         const json = JSON.parse(decompressed);
+        console.log(decompressed);
         actions.deserialize(json);
         setIsLoaded(true);
       } catch (error) {
