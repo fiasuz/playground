@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { EditorControls } from "./EditorControls";
 import { useBoolean } from "minimal-shared";
+import { actionsStore } from "@/shared/store";
+
 interface CanvasWrapperProps {
   children: React.ReactNode;
 }
@@ -13,6 +15,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [isSpacePressing, setIsSpacePressing] = useState(false);
   const isPositionCalculating = useBoolean();
+  const { active: activeAction } = actionsStore((state) => state);
 
   useEffect(() => {
     isPositionCalculating.onTrue();
@@ -143,12 +146,19 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
     setTransform({ ...transform, scale: 1 });
   };
 
+  // Determine cursor style based on current mode
+  const getCursor = () => {
+    if (activeAction === "text") return "crosshair";
+    if (isSpacePressing) return "grabbing";
+    return "grab";
+  };
+
   return (
     <div
       ref={containerRef}
       className="relative w-full h-full overflow-hidden cursor-grab"
       style={{
-        cursor: isSpacePressing ? "grabbing" : "grab",
+        cursor: getCursor(),
         backgroundColor: "#eeeeee",
         backgroundImage: `radial-gradient(circle, #d0d0d0 1px, transparent 1px)`,
         backgroundSize: "20px 20px",

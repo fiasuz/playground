@@ -13,6 +13,7 @@ import {
   GlobeIcon,
   PlayIcon,
   Plus,
+  TypeOutlineIcon,
 } from "lucide-react";
 import lz from "lzutf8";
 
@@ -86,6 +87,16 @@ export function EditorHeader() {
         >
           <Plus className="size-5" />
           <p className="text-sm font-medium">Insert</p>
+        </button>
+        <button
+          className={cn(
+            "flex flex-row items-center gap-1 cursor-pointer hover:text-black",
+            activeAction === "text" ? "text-text" : "text-muted-foreground",
+          )}
+          onClick={() => onChangeAction("text")}
+        >
+          <TypeOutlineIcon className="size-5" />
+          <p className="text-sm font-medium">Text</p>
         </button>
         <button
           className={cn(

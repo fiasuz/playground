@@ -1,6 +1,6 @@
 import { useNode } from "@craftjs/core";
 import { Label, Separator } from "@repo/ui";
-import { useState, useEffect, type HTMLAttributes } from "react";
+import { useState, useEffect, useRef, type HTMLAttributes } from "react";
 import ContentEditable from "react-contenteditable";
 import { cn } from "@repo/ui/lib/utils";
 import { pagesStore } from "@/shared/store";
@@ -37,16 +37,38 @@ export const Text = ({
   const { activeBreakpoint } = pagesStore((state) => state);
 
   const [editable, setEditable] = useState(false);
+  const contentEditableRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (selected) {
+      if (text === "" && !editable) {
+        setEditable(true);
+      }
       return;
     }
 
     setEditable(false);
-  }, [selected]);
+  }, [selected, text, editable]);
 
-  // Check if component should be visible on current breakpoint
+  // Make if focused for editing
+  useEffect(() => {
+    if (editable && contentEditableRef.current) {
+      const element = contentEditableRef.current;
+      element.focus();
+
+      // Place cursor at the end of text
+      const range = document.createRange();
+      const selection = window.getSelection();
+
+      if (element.childNodes.length > 0) {
+        range.setStart(element.childNodes[0], element.textContent?.length || 0);
+        range.collapse(true);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+      }
+    }
+  }, [editable]);
+
   const isVisible = isVisibleOnBreakpoint(
     responsiveVisibility,
     activeBreakpoint,
@@ -56,8 +78,8 @@ export const Text = ({
     return null;
   }
 
-  // Generate responsive visibility CSS classes
-  const responsiveClasses = getResponsiveVisibilityClasses(responsiveVisibility);
+  const responsiveClasses =
+    getResponsiveVisibilityClasses(responsiveVisibility);
 
   return (
     <div
@@ -71,6 +93,7 @@ export const Text = ({
       onClick={() => selected && setEditable(true)}
     >
       <ContentEditable
+        innerRef={contentEditableRef as React.RefObject<HTMLElement>}
         html={text}
         disabled={!editable}
         onChange={(e: any) =>
@@ -86,6 +109,8 @@ export const Text = ({
     </div>
   );
 };
+
+// -----------------------------------------------------------------------------
 
 const TextSettings = () => {
   const {
@@ -118,6 +143,8 @@ const TextSettings = () => {
     </div>
   );
 };
+
+// -----------------------------------------------------------------------------
 
 export const TextDefaultProps = {
   text: "Hi",
