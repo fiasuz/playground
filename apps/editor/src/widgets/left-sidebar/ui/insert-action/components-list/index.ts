@@ -1,5 +1,5 @@
-export { Button, ButtonDefaultProps, ButtonSettings } from "./Button";
-export { Text, TextDefaultProps } from "./Text";
+export { Button, ButtonSettings } from "./Button";
+export { Text } from "./Text";
 export { ComponentsList } from "./ComponentsList";
 export { Card, CardBottom, CardTop } from "./Card";
 export {
@@ -7,3 +7,5 @@ export {
   ContainerDefaultProps,
   ContainerSettings,
 } from "./Container";
+export { Input, InputSettings } from "./Input";
+export { Heading, HeadingSettings } from "./Heading";

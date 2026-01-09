@@ -3,10 +3,8 @@ import { Editor } from "@craftjs/core";
 import { Breakpointer } from "@/components";
 import {
   Button,
-  Card,
-  CardBottom,
-  CardTop,
   Container,
+  Input,
   Text,
 } from "@/widgets/left-sidebar/ui/insert-action";
 
@@ -19,12 +17,10 @@ export function EditorProvider({ children }: EditorProviderProps) {
     <Editor
       resolver={{
         Breakpointer,
-        Card,
         Button,
-        Text,
         Container,
-        CardTop,
-        CardBottom,
+        Input,
+        Text,
       }}
     >
       {children}

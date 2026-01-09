@@ -68,9 +68,6 @@ export const Button = ({
         }
       }}
       className={cn(responsiveClasses)}
-      style={{
-        margin: "5px",
-      }}
       size={size}
       variant={variant}
       {...props}
@@ -98,7 +95,9 @@ export const ButtonSettings = () => {
         <Input
           value={props.text}
           onChange={(e) =>
-            setProp((props: any) => (props.text = e.target.value))
+            setProp(
+              (props: Record<string, unknown>) => (props.text = e.target.value),
+            )
           }
           placeholder="Enter button text"
         />
@@ -111,8 +110,8 @@ export const ButtonSettings = () => {
         <Label>Size</Label>
         <Select
           defaultValue={props.size}
-          onValueChange={(e: string) =>
-            setProp((props: any) => (props.size = e))
+          onValueChange={(e) =>
+            setProp((props: Record<string, unknown>) => (props.size = e))
           }
         >
           <SelectTrigger className="w-[140px]" size="sm">
@@ -137,7 +136,7 @@ export const ButtonSettings = () => {
         <Select
           defaultValue={props.variant}
           onValueChange={(e: string) => {
-            setProp((props: any) => (props.variant = e));
+            setProp((props: Record<string, unknown>) => (props.variant = e));
           }}
         >
           <SelectTrigger className="w-[140px]" size="sm">
@@ -165,7 +164,7 @@ export const ButtonSettings = () => {
   );
 };
 
-export const ButtonDefaultProps = {
+const ButtonDefaultProps = {
   size: "small",
   variant: "default",
   color: "primary",

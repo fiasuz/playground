@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Element, useNode } from "@craftjs/core";
 import type { ElementType, HTMLAttributes, JSX, ReactNode } from "react";
 import {

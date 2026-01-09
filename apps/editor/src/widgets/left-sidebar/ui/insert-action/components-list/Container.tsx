@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { useNode } from "@craftjs/core";
 import { Label, Separator } from "@repo/ui";
 import type { HTMLAttributes, ReactNode } from "react";
@@ -41,7 +43,8 @@ export const Container = ({
   }
 
   // Generate responsive visibility CSS classes
-  const responsiveClasses = getResponsiveVisibilityClasses(responsiveVisibility);
+  const responsiveClasses =
+    getResponsiveVisibilityClasses(responsiveVisibility);
 
   return (
     <div
@@ -78,7 +81,11 @@ export const ContainerSettings = () => {
           name="background-color"
           value={background}
           onChange={(e) => {
-            setProp((props: any) => (props.background = e.target.value), 500);
+            setProp(
+              (props: Record<string, unknown>) =>
+                (props.background = e.target.value),
+              500,
+            );
           }}
         />
       </div>
@@ -87,8 +94,12 @@ export const ContainerSettings = () => {
         <input
           type="range"
           defaultValue={padding}
-          onChange={(e: any) =>
-            setProp((props: any) => (props.padding = e.target.value), 500)
+          onChange={(e) =>
+            setProp(
+              (props: Record<string, unknown>) =>
+                (props.padding = e.target.value),
+              500,
+            )
           }
         />
       </div>

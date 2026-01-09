@@ -60,7 +60,11 @@ export const BreakpointerSettings = () => {
           name="background-color"
           value={background}
           onChange={(e) => {
-            setProp((props: any) => (props.background = e.target.value), 500);
+            setProp(
+              (props: Record<string, unknown>) =>
+                (props.background = e.target.value),
+              500,
+            );
           }}
         />
       </div>
@@ -69,8 +73,12 @@ export const BreakpointerSettings = () => {
         <input
           type="range"
           defaultValue={padding}
-          onChange={(e: any) =>
-            setProp((props: any) => (props.padding = e.target.value), 500)
+          onChange={(e) =>
+            setProp(
+              (props: Record<string, unknown>) =>
+                (props.padding = e.target.value),
+              500,
+            )
           }
         />
       </div>

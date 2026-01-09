@@ -9,7 +9,7 @@ import {
 import { useBoolean } from "minimal-shared";
 import { PageActions } from "./PageActions";
 import { DetailsPageItem } from "./DetailsPageItem";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { indexPage } from "@/shared/store/pages/pages.store";
 
 interface IPageItem {
@@ -22,10 +22,6 @@ export function PageItem({ data }: IPageItem) {
   const showDetails = useBoolean();
   const editPageName = useBoolean();
   const [routeValue, setRouteValue] = useState(data.route);
-
-  useEffect(() => {
-    setRouteValue(data.route);
-  }, [data.route]);
 
   const handleSaveRoute = () => {
     if (routeValue.trim() && routeValue !== data.route) {
@@ -65,7 +61,7 @@ export function PageItem({ data }: IPageItem) {
         onClick={() => setActivePage(data.id)}
         className={cn(
           "hover:bg-muted p-1 rounded-lg cursor-default flex flex-row items-center text-muted-foreground hover:[&>.page-actions]:opacity-100",
-          activePage === data.id && "bg-muted text-black"
+          activePage === data.id && "bg-muted text-black",
         )}
       >
         <div className="w-6 flex items-center justify-center text-muted-foreground hover:text-black">

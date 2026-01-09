@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState } from "react";
 
 interface UseResizeOptions {
   minWidth?: number;
@@ -23,14 +23,14 @@ export function useResize(options: UseResizeOptions = {}) {
   };
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: globalThis.MouseEvent) => {
       if (!isResizing) return;
 
       let newWidth: number;
       if (direction === "right") {
         newWidth = Math.max(
           minWidth,
-          Math.min(window.innerWidth - e.clientX, maxWidth)
+          Math.min(window.innerWidth - e.clientX, maxWidth),
         );
       } else {
         newWidth = Math.max(minWidth, Math.min(e.clientX, maxWidth));
@@ -44,11 +44,11 @@ export function useResize(options: UseResizeOptions = {}) {
     };
 
     if (isResizing) {
-      document.addEventListener("mousemove", handleMouseMove as any);
+      document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
 
       return () => {
-        document.removeEventListener("mousemove", handleMouseMove as any);
+        document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
       };
     }

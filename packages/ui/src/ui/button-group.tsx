@@ -29,7 +29,7 @@ function ButtonGroup({
     <div
       role="group"
       data-slot="button-group"
-      data-orientation={orientation}
+      {...(orientation && { "data-orientation": orientation })}
       className={cn(buttonGroupVariants({ orientation }), className)}
       {...props}
     />

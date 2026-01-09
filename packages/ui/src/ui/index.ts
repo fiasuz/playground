@@ -17,3 +17,4 @@ export * from "./popover";
 export * from "./tooltip";
 export * from "./switch";
 export * from "./slider";
+export * from "./drawer";

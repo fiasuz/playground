@@ -3,6 +3,7 @@ import { Toggler, TogglerIcon } from "../togglers";
 import { useEditor } from "@craftjs/core";
 import { Button } from "./Button";
 import { Text } from "./Text";
+import { Input } from "./Input";
 
 export function ComponentsList() {
   const { connectors } = useEditor();
@@ -24,6 +25,14 @@ export function ComponentsList() {
           }}
         >
           Text
+        </li>
+
+        <li
+          ref={(ref: HTMLLIElement) => {
+            connectors.create(ref, <Input />);
+          }}
+        >
+          Input
         </li>
       </ul>
     </Toggler>

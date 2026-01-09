@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useEditor, Frame } from "@craftjs/core";
 import { useSearchParams } from "react-router-dom";
 import lz from "lzutf8";
@@ -8,7 +8,6 @@ export function PreviewPage() {
   const { actions, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (enabled) {
@@ -24,25 +23,12 @@ export function PreviewPage() {
           lz.decodeBase64(decodeURIComponent(stateParam)),
         );
         const json = JSON.parse(decompressed);
-        console.log(decompressed);
         actions.deserialize(json);
-        setIsLoaded(true);
       } catch (error) {
         console.error("Failed to load state:", error);
-        setIsLoaded(true);
       }
-    } else {
-      setIsLoaded(true);
     }
   }, [searchParams, actions]);
-
-  if (!isLoaded) {
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <Frame>

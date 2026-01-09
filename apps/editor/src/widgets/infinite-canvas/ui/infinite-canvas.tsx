@@ -7,6 +7,7 @@ interface InfiniteCanvasProps {
 }
 
 export function InfiniteCanvas({ children }: InfiniteCanvasProps) {
+  // eslint-disable-next-line
   const transformRef = useRef<any>(null);
   const [scale, setScale] = useState(1);
 

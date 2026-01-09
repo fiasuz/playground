@@ -8,3 +8,9 @@ export {
   type IPagesStoreState,
 } from "./pages/pages.model";
 export { pagesStore, indexPage, initialPageContent } from "./pages/pages.store";
+
+export {
+  type ISettingsStoreActions,
+  type ISettingsStoreState,
+} from "./settings/settings.model";
+export { settingsStore } from "./settings/settings.store";

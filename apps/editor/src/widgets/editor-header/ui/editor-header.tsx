@@ -1,5 +1,10 @@
 import { pages } from "@/shared/constants";
-import { actionsStore, pagesStore, type ActionsType } from "@/shared/store";
+import {
+  actionsStore,
+  pagesStore,
+  settingsStore,
+  type ActionsType,
+} from "@/shared/store";
 import { useEditor } from "@craftjs/core";
 import { Badge } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
@@ -22,6 +27,7 @@ export function EditorHeader() {
     (state) => state,
   );
   const { pages: createdPages } = pagesStore((state) => state);
+  const { onToggle: onToggleSettingsOpen } = settingsStore((state) => state);
 
   const { query } = useEditor((state, query) => ({
     enabled: state.options.enabled,
@@ -124,7 +130,7 @@ export function EditorHeader() {
         >
           <img src="https://placehold.co/400x400" />
         </div>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" onClick={onToggleSettingsOpen}>
           <CogIcon />
         </Button>
         <Button variant="outline" size="icon">
