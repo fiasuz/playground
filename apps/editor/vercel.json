@@ -1,8 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd ../.. && pnpm install && pnpm turbo build --filter=editor",
-  "outputDirectory": "dist",
-  "installCommand": "cd ../.. && pnpm install",
-  "framework": "vite",
-  "devCommand": "cd ../.. && pnpm dev --filter=editor"
-}
