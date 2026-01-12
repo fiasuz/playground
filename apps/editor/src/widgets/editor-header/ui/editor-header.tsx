@@ -2,7 +2,6 @@ import { pages } from "@/shared/constants";
 import {
   actionsStore,
   pagesStore,
-  settingsStore,
   type ActionsType,
 } from "@/shared/store";
 import { useEditor } from "@craftjs/core";
@@ -21,13 +20,14 @@ import {
   TypeOutlineIcon,
 } from "lucide-react";
 import lz from "lzutf8";
+import { useNavigate } from "react-router-dom";
 
 export function EditorHeader() {
+  const navigate = useNavigate();
   const { change: changeAction, active: activeAction } = actionsStore(
     (state) => state,
   );
   const { pages: createdPages } = pagesStore((state) => state);
-  const { onToggle: onToggleSettingsOpen } = settingsStore((state) => state);
 
   const { query } = useEditor((state, query) => ({
     enabled: state.options.enabled,
@@ -130,7 +130,7 @@ export function EditorHeader() {
         >
           <img src="https://placehold.co/400x400" />
         </div>
-        <Button variant="outline" size="icon" onClick={onToggleSettingsOpen}>
+        <Button variant="outline" size="icon" onClick={() => navigate(pages.settings)}>
           <CogIcon />
         </Button>
         <Button variant="outline" size="icon">

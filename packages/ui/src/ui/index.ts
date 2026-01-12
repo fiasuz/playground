@@ -18,3 +18,5 @@ export * from "./tooltip";
 export * from "./switch";
 export * from "./slider";
 export * from "./drawer";
+export * from "./field";
+export * from "./textarea";

@@ -14,3 +14,11 @@ export {
   type ISettingsStoreState,
 } from "./settings/settings.model";
 export { settingsStore } from "./settings/settings.store";
+
+export {
+  type IThemeStoreActions,
+  type IThemeStoreState,
+  type ThemeColors,
+  type ColorConfig,
+} from "./theme/theme.model";
+export { useThemeStore } from "./theme/theme.store";

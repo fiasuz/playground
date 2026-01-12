@@ -1,5 +1,6 @@
 import { EditorPage } from "@/pages/editor-page";
 import { PreviewPage } from "@/pages/preview-page";
+import { SettingsPage } from "@/pages/settings-page";
 import { pages } from "@/shared/constants";
 import type { ReactNode } from "react";
 import { Navigate, useRoutes, type RouteObject } from "react-router-dom";
@@ -19,6 +20,10 @@ const routesConfig: RouteObject = {
         {
           path: pages.preview,
           element: <PreviewPage />,
+        },
+        {
+          path: pages.settings,
+          element: <SettingsPage />,
         },
       ],
     },
